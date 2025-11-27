@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Item - Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/add-item.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/149/149880.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html">
+                    <h2>🔍 Campus Lost & Found</h2>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="browse.html" class="nav-link">Browse Items</a>
+                <a href="add-item.html" class="nav-link active">Add Item</a>
+                <a href="dashboard.html" class="nav-link auth-required">Dashboard</a>
+                <a href="login.html" class="nav-link auth-only" id="login-nav">Login</a>
+                <span class="nav-link user-info hidden" id="user-info">
+                    Welcome, <span id="user-name"></span>
+                    <button class="btn btn--sm logout-btn" id="logout-btn">Logout</button>
+                </span>
+            </div>
+
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Report an Item</h1>
+                <p>Help reunite lost items with their owners by reporting what you've lost or found</p>
+            </div>
+        </section>
+
+        <!-- Add Item Form -->
+        <section class="add-item-section">
+            <div class="container">
+                <div class="form-container">
+                    <form id="add-item-form" class="add-item-form" enctype="multipart/form-data">
+                        <!-- Progress Indicator -->
+                        <div class="form-progress">
+                            <div class="progress-step active" data-step="1">
+                                <span>1</span>
+                                <label>Basic Info</label>
+                            </div>
+                            <div class="progress-step" data-step="2">
+                                <span>2</span>
+                                <label>Details</label>
+                            </div>
+                            <div class="progress-step" data-step="3">
+                                <span>3</span>
+                                <label>Contact</label>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Basic Information -->
+                        <div class="form-step active" data-step="1">
+                            <h2>Basic Information</h2>
+
+                            <div class="form-group">
+                                <label for="item-status" class="form-label">Status *</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="status" value="Lost" id="status-lost" required>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-text">
+                                            <strong>Lost</strong> - I lost this item
+                                        </span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="status" value="Found" id="status-found" required>
+                                        <span class="radio-custom"></span>
+                                        <span class="radio-text">
+                                            <strong>Found</strong> - I found this item
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-title" class="form-label">Item Title *</label>
+                                <input type="text" 
+                                       id="item-title" 
+                                       name="title" 
+                                       class="form-input" 
+                                       placeholder="e.g., iPhone 13 Pro - Blue"
+                                       required>
+                                <small class="form-help">Be specific and descriptive</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-category" class="form-label">Category *</label>
+                                <select id="item-category" name="category" class="form-select" required>
+                                    <option value="">Select a category</option>
+                                    <option value="Electronics">📱 Electronics</option>
+                                    <option value="Clothing">👕 Clothing</option>
+                                    <option value="Books">📚 Books</option>
+                                    <option value="IDs">🆔 IDs</option>
+                                    <option value="Other">📦 Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn--primary" id="step1-next">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Details -->
+                        <div class="form-step" data-step="2">
+                            <h2>Item Details</h2>
+
+                            <div class="form-group">
+                                <label for="item-description" class="form-label">Description *</label>
+                                <textarea id="item-description" 
+                                          name="description" 
+                                          class="form-textarea" 
+                                          rows="4"
+                                          placeholder="Provide detailed description including color, size, brand, distinctive features..."
+                                          required></textarea>
+                                <div class="character-count">
+                                    <span id="desc-count">0</span>/500 characters
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-location" class="form-label">Location *</label>
+                                <input type="text" 
+                                       id="item-location" 
+                                       name="location" 
+                                       class="form-input" 
+                                       placeholder="e.g., Main Library, Student Cafeteria, Room 204"
+                                       required>
+                                <small class="form-help">Where was the item lost or found?</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item-photos" class="form-label">Photos (Max 4)</label>
+                                <div class="photo-upload-container">
+                                    <input type="file" 
+                                           id="item-photos" 
+                                           name="photos" 
+                                           class="photo-input" 
+                                           accept="image/*" 
+                                           multiple>
+                                    <label for="item-photos" class="photo-upload-label">
+                                        <div class="upload-icon">📸</div>
+                                        <div class="upload-text">
+                                            <strong>Click to upload photos</strong>
+                                            <p>or drag and drop</p>
+                                        </div>
+                                    </label>
+                                    <div class="photo-preview-container" id="photo-preview-container">
+                                        <!-- Photo previews will appear here -->
+                                    </div>
+                                </div>
+                                <small class="form-help">Clear photos help with identification. Max file size: 5MB each.</small>
+                            </div>
+
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn--outline" id="step2-prev">Previous</button>
+                                <button type="button" class="btn btn--primary" id="step2-next">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Contact Information -->
+                        <div class="form-step" data-step="3">
+                            <h2>Contact Information</h2>
+
+                            <div class="form-group">
+                                <label for="contact-email" class="form-label">Email Address *</label>
+                                <input type="email" 
+                                       id="contact-email" 
+                                       name="contactEmail" 
+                                       class="form-input" 
+                                       placeholder="your.email@campus.edu"
+                                       required>
+                                <small class="form-help">This email will be visible to other users</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-phone" class="form-label">Phone Number (Optional)</label>
+                                <input type="tel" 
+                                       id="contact-phone" 
+                                       name="contactPhone" 
+                                       class="form-input" 
+                                       placeholder="+1-555-0123">
+                                <small class="form-help">Provide if you want to be contacted by phone</small>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="terms-agreement" required>
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">
+                                            I agree that my contact information will be visible to other users and 
+                                            I will respond to legitimate inquiries about this item.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn--outline" id="step3-prev">Previous</button>
+                                <button type="submit" class="btn btn--success" id="submit-btn">
+                                    <span class="btn-text">Post Item</span>
+                                    <span class="btn-loading hidden">
+                                        <span class="spinner"></span> Posting...
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quick Actions Floating Button -->
+    <div class="quick-actions" id="quick-actions">
+        <button class="quick-actions-toggle" id="quick-actions-toggle">
+            <span class="plus-icon">+</span>
+        </button>
+        <div class="quick-actions-menu" id="quick-actions-menu">
+            <a href="browse.html" class="quick-action" title="Browse Items">
+                <span>🔍</span>
+            </a>
+            <a href="index.html" class="quick-action" title="Home">
+                <span>🏠</span>
+            </a>
+            <a href="dashboard.html" class="quick-action auth-required" title="Dashboard">
+                <span>📊</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal hidden" id="success-modal">
+        <div class="modal-overlay" id="success-modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ Item Posted Successfully!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Your item has been posted and is now visible to other users. You can manage it from your dashboard.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="post-another-btn">Post Another Item</button>
+                <a href="dashboard.html" class="btn btn--primary">Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS CDN and client config (shared) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/add-item.js"></script>
+</body>
+</html>

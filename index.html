@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost & Found</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h2>🔍 Campus Lost & Found</h2>
+            </div>
+            
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="#" class="nav-link active" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="browse">Browse Items</a>
+                <a href="#" class="nav-link auth-required" data-page="add-item">Add Item</a>
+                <a href="#" class="nav-link auth-required" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link auth-only" data-page="login" id="login-nav">Login</a>
+                <span class="nav-link user-info hidden" id="user-info">
+                    Welcome, <span id="user-name"></span>
+                    <button class="btn btn--sm logout-btn" id="logout-btn">Logout</button>
+                </span>
+            </div>
+
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Actions Floating Button -->
+    <div class="quick-actions" id="quick-actions">
+        <button class="quick-actions-btn" id="quick-actions-toggle">+</button>
+        <div class="quick-actions-menu hidden" id="quick-actions-menu">
+            <a href="#" class="quick-action-item" data-page="home">🏠 Home</a>
+            <a href="#" class="quick-action-item" data-page="browse">🔍 Browse</a>
+            <a href="#" class="quick-action-item auth-required" data-page="add-item">➕ Add Item</a>
+            <a href="#" class="quick-action-item auth-required" data-page="dashboard">📊 Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        
+        <!-- HOME PAGE -->
+        <section class="page active" id="home-page">
+            <div class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="floating-icons">
+                            <span class="floating-icon" style="--delay: 0s;">📱</span>
+                            <span class="floating-icon" style="--delay: 1s;">👜</span>
+                            <span class="floating-icon" style="--delay: 2s;">📚</span>
+                            <span class="floating-icon" style="--delay: 0.5s;">🎒</span>
+                            <span class="floating-icon" style="--delay: 1.5s;">🔑</span>
+                            <span class="floating-icon" style="--delay: 2.5s;">💳</span>
+                        </div>
+                        <h1>Lost Something? Found Something?</h1>
+                        <p>Connect with your campus community to reunite lost items with their owners</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="total-items">0</span>
+                                <span class="stat-label">Items Posted</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="items-lost">0</span>
+                                <span class="stat-label">Lost Items</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="items-found">0</span>
+                                <span class="stat-label">Found Items</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="active-users">0</span>
+                                <span class="stat-label">Active Users</span>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="btn btn--primary btn--lg" data-page="browse">Browse Items</button>
+                            <button class="btn btn--outline btn--lg auth-required" data-page="add-item">Post an Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <section class="recent-items">
+                    <h2>Recent Items</h2>
+                    <div class="items-grid" id="recent-items-grid">
+                        <!-- Recent items will be populated by JavaScript -->
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn--outline" data-page="browse">View All Items</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- BROWSE PAGE -->
+        <section class="page" id="browse-page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Browse Items</h1>
+                    <div class="browse-header-actions">
+                        <div class="view-toggle">
+                            <button class="view-toggle-btn active" data-view="grid">⊞</button>
+                            <button class="view-toggle-btn" data-view="list">☰</button>
+                        </div>
+                        <button class="btn btn--primary auth-required" data-page="add-item">+ Add New Item</button>
+                    </div>
+                </div>
+
+                <div class="browse-layout">
+                    <aside class="filters-sidebar">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Search & Filter</h3>
+                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="search-input" placeholder="Search items...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-control" id="status-filter">
+                                        <option value="">All</option>
+                                        <option value="Lost">Lost</option>
+                                        <option value="Found">Found</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-control" id="category-filter">
+                                        <option value="">All Categories</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Clothing">Clothing</option>
+                                        <option value="Books">Books</option>
+                                        <option value="IDs">IDs</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Date Range</label>
+                                    <input type="date" class="form-control" id="date-from" style="margin-bottom: 8px;">
+                                    <input type="date" class="form-control" id="date-to">
+                                </div>
+
+                                <button class="btn btn--secondary btn--full-width" id="clear-filters">Clear All</button>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <main class="items-content">
+                        <div class="results-header">
+                            <span id="results-count">0 items found</span>
+                            <select class="form-control" id="sort-select" style="width: auto;">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="title">Title A-Z</option>
+                            </select>
+                        </div>
+                        <div class="items-grid" id="browse-items-grid">
+                            <!-- Items will be populated by JavaScript -->
+                        </div>
+                        <div class="load-more-container hidden" id="load-more-container">
+                            <button class="btn btn--outline" id="load-more-btn">Load More Items</button>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADD ITEM PAGE -->
+        <section class="page" id="add-item-page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Add New Item</h1>
+                    <p>Help reunite lost items with their owners or report found items</p>
+                </div>
+
+                <div class="form-container">
+                    <!-- Progress Bar -->
+                    <div class="progress-bar">
+                        <div class="progress-step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Basic Info</span>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Details</span>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-title">Photos & Contact</span>
+                        </div>
+                    </div>
+
+                    <form class="add-item-form" id="add-item-form">
+                        <!-- Step 1: Basic Info -->
+                        <div class="form-step active" id="step-1">
+                            <h3>Basic Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Item Title *</label>
+                                    <input type="text" class="form-control" id="item-title" required placeholder="e.g., iPhone 13 Pro - Blue">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Status *</label>
+                                    <select class="form-control" id="item-status" required style="color: var(--color-text); background-color: var(--color-surface);">
+                                        <option value="" style="color: var(--color-text-secondary);">Select Status</option>
+                                        <option value="Lost" style="color: var(--color-text);">Lost</option>
+                                        <option value="Found" style="color: var(--color-text);">Found</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Category *</label>
+                                    <select class="form-control" id="item-category" required style="color: var(--color-text); background-color: var(--color-surface);">
+                                        <option value="" style="color: var(--color-text-secondary);">Select Category</option>
+                                        <option value="Electronics" style="color: var(--color-text);">Electronics</option>
+                                        <option value="Clothing" style="color: var(--color-text);">Clothing</option>
+                                        <option value="Books" style="color: var(--color-text);">Books</option>
+                                        <option value="IDs" style="color: var(--color-text);">IDs</option>
+                                        <option value="Other" style="color: var(--color-text);">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Location *</label>
+                                    <select class="form-control" id="item-location" required style="color: var(--color-text); background-color: var(--color-surface);">
+                                        <option value="" style="color: var(--color-text-secondary);">Select Location</option>
+                                        <option value="Main Library" style="color: var(--color-text);">Main Library</option>
+                                        <option value="Student Cafeteria" style="color: var(--color-text);">Student Cafeteria</option>
+                                        <option value="Mathematics Building" style="color: var(--color-text);">Mathematics Building</option>
+                                        <option value="Campus Gym" style="color: var(--color-text);">Campus Gym</option>
+                                        <option value="Student Union Building" style="color: var(--color-text);">Student Union Building</option>
+                                        <option value="Main Parking Lot" style="color: var(--color-text);">Main Parking Lot</option>
+                                        <option value="Other" style="color: var(--color-text);">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Details -->
+                        <div class="form-step" id="step-2">
+                            <h3>Item Details</h3>
+                            <div class="form-group">
+                                <label class="form-label">Description *</label>
+                                <textarea class="form-control" id="item-description" rows="4" required placeholder="Provide a detailed description of the item..."></textarea>
+                                <small class="form-help">Include any identifying features, colors, brands, or distinguishing marks</small>
+                            </div>
+
+                            <div class="form-group" id="custom-location-group" style="display: none;">
+                                <label class="form-label">Custom Location *</label>
+                                <input type="text" class="form-control" id="custom-location" placeholder="Enter specific location">
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Photos & Contact -->
+                        <div class="form-step" id="step-3">
+                            <h3>Photos & Contact Information</h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Photos (Max 4)</label>
+                                <div class="photo-upload">
+                                    <input type="file" id="photo-input" multiple accept="image/*" style="display: none;">
+                                    <button type="button" class="btn btn--outline btn--full-width" id="upload-btn">
+                                        📷 Upload Photos
+                                    </button>
+                                    <div class="photo-preview" id="photo-preview"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Contact Email *</label>
+                                    <input type="email" class="form-control" id="contact-email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Contact Phone</label>
+                                    <input type="tel" class="form-control" id="contact-phone" placeholder="+1-555-0123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn--outline" id="prev-step" style="display: none;">Previous</button>
+                            <div class="form-actions-right">
+                                <button type="button" class="btn btn--outline" data-page="browse">Cancel</button>
+                                <button type="button" class="btn btn--primary" id="next-step">Next</button>
+                                <button type="submit" class="btn btn--primary" id="submit-item" style="display: none;">Post Item</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD PAGE -->
+        <section class="page" id="dashboard-page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>My Dashboard</h1>
+                    <div class="dashboard-welcome" id="dashboard-welcome">
+                        Welcome back, <span id="dashboard-user-name"></span>!
+                    </div>
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="user-total-items">0</div>
+                        <div class="stat-label">Total Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="user-lost-items">0</div>
+                        <div class="stat-label">Lost Items</div>    
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="user-found-items">0</div>
+                        <div class="stat-label">Found Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="user-active-items">0</div>
+                        <div class="stat-label">Active Items</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="dashboard-tabs">
+                        <button class="dashboard-tab active" data-tab="items">My Items</button>
+                        <button class="dashboard-tab" data-tab="account">Account</button>
+                    </div>
+
+                    <!-- My Items Tab -->
+                    <div class="dashboard-tab-content active" id="items-tab">
+                        <div class="section-header">
+                            <h2>My Items</h2>
+                            <button class="btn btn--primary" data-page="add-item">+ Add New Item</button>
+                        </div>
+                        <div class="items-grid" id="user-items-grid">
+                            <!-- User's items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Account Tab -->
+                    <div class="dashboard-tab-content" id="account-tab">
+                        <div class="account-sections">
+                            <div class="account-section">
+                                <h3>Profile Information</h3>
+                                <form id="profile-form" class="profile-form">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="profile-firstname" name="firstName" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="profile-lastname" name="lastName" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="profile-email" name="email" readonly>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn--outline" id="edit-profile-btn">Edit</button>
+                                        <button type="submit" class="btn btn--primary" id="save-profile-btn" style="display:none;">Save Changes</button>
+                                        <button type="button" class="btn btn--outline" id="cancel-profile-btn" style="display:none;">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="account-section">
+                                <h3>Change Password</h3>
+                                <form id="change-password-form">
+                                    <div class="form-group">
+                                        <label class="form-label">Current Password</label>
+                                        <div class="password-input-wrapper">
+                                            <input type="password" class="form-control" id="current-password" required>
+                                            <button type="button" class="password-toggle" data-target="current-password" aria-label="Show password">Show</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">New Password</label>
+                                        <div class="password-input-wrapper">
+                                            <input type="password" class="form-control" id="new-password" required>
+                                            <button type="button" class="password-toggle" data-target="new-password" aria-label="Show password">Show</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Confirm New Password</label>
+                                        <div class="password-input-wrapper">
+                                            <input type="password" class="form-control" id="confirm-new-password" required>
+                                            <button type="button" class="password-toggle" data-target="confirm-new-password" aria-label="Show password">Show</button>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn--primary">Update Password</button>
+                                </form>
+                            </div>
+
+                            <div class="account-section">
+                                <h3>Preferences</h3>
+                                <div class="preferences">
+                                    <div class="preference-item">
+                                        <label>
+                                            <input type="checkbox" id="email-notifications"> 
+                                            Email notifications for messages
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>
+                                            <input type="checkbox" id="auto-theme"> 
+                                            Automatic theme switching
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGIN PAGE -->
+        <section class="page" id="login-page">
+            <div class="container">
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" data-tab="login">Login</button>
+                            <button class="auth-tab" data-tab="signup">Sign Up</button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div class="auth-form active" id="login-form">
+                            <h2>Welcome Back</h2>
+                            <form id="login-form-element">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="login-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" class="form-control" id="login-password" required>
+                                        <button type="button" class="password-toggle" data-target="login-password" aria-label="Show password">Show</button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                            </form>
+                            <p class="auth-note">Test account: john.smith@campus.edu / password123</p>
+                        </div>
+
+                        <!-- Signup Form -->
+                        <div class="auth-form" id="signup-form">
+                            <h2>Join Campus Lost & Found</h2>
+                            <form id="signup-form-element">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="signup-firstname" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="signup-lastname" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="signup-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" class="form-control" id="signup-password" required>
+                                        <button type="button" class="password-toggle" data-target="signup-password" aria-label="Show password">Show</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirm Password</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" class="form-control" id="signup-confirm-password" required>
+                                        <button type="button" class="password-toggle" data-target="signup-confirm-password" aria-label="Show password">Show</button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn--primary btn--full-width">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ITEM DETAILS PAGE -->
+        <section class="page" id="item-details-page">
+            <div class="container">
+                <div class="item-details-container">
+                    <div class="item-details-content">
+                        <div class="item-photos">
+                            <div class="photo-slideshow">
+                                <div class="photo-main">
+                                    <img id="main-photo" src="" alt="Item photo">
+                                    <button class="photo-nav photo-nav--prev" id="prev-photo">‹</button>
+                                    <button class="photo-nav photo-nav--next" id="next-photo">›</button>
+                                </div>
+                                <div class="photo-thumbnails" id="photo-thumbnails">
+                                    <!-- Thumbnails will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item-info">
+                            <div class="item-header">
+                                <div class="status-badge" id="item-details-status"></div>
+                                <h1 id="item-details-title"></h1>
+                                <p class="item-category" id="item-details-category"></p>
+                            </div>
+
+                            <div class="item-meta">
+                                <div class="meta-item">
+                                    <strong>Location:</strong>
+                                    <span id="item-details-location"></span>
+                                </div>
+                                <div class="meta-item">
+                                    <strong>Posted:</strong>
+                                    <span id="item-details-date"></span>
+                                </div>
+                                <div class="meta-item">
+                                    <strong>Posted by:</strong>
+                                    <span id="item-details-user"></span>
+                                </div>
+                            </div>
+
+                            <div class="item-description">
+                                <h3>Description</h3>
+                                <p id="item-details-description"></p>
+                            </div>
+
+                            <div class="location-map">
+                                <h3>Location</h3>
+                                <div class="map-placeholder">
+                                    <p>📍 <span id="item-details-map-location"></span></p>
+                                    <small>Map integration would be implemented here</small>
+                                </div>
+                            </div>
+
+                            <div class="contact-info">
+                                <h3>Contact Information</h3>
+                                <div class="contact-details">
+                                    <p><strong>Email:</strong> <a href="#" id="item-details-email"></a></p>
+                                    <p id="item-details-phone-container" class="hidden">
+                                        <strong>Phone:</strong> <a href="#" id="item-details-phone"></a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="item-actions">
+                                <button class="btn btn--primary btn--full-width" id="contact-owner-btn">Contact Owner</button>
+                                <div class="owner-actions hidden" id="owner-actions">
+                                    <button class="btn btn--outline" id="edit-item-btn">Edit Item</button>
+                                    <button class="btn btn--outline delete-btn" id="delete-item-btn">Delete Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="related-items">
+                        <h3>Similar Items</h3>
+                        <div class="items-grid" id="related-items-grid">
+                            <!-- Related items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal hidden" id="success-modal">
+        <div class="modal-content">
+            <div class="success-icon">✅</div>
+            <h3 id="success-title">Success!</h3>
+            <p id="success-message">Your item has been posted successfully.</p>
+            <button class="btn btn--primary" id="success-ok">OK</button>
+        </div>
+    </div>
+
+    <!-- EDIT ITEM MODAL -->
+    <div class="modal hidden" id="edit-modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3>Edit Item</h3>
+                <button class="modal-close" id="edit-modal-close">×</button>
+            </div>
+            <form id="edit-item-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="edit-title">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="edit-status">
+                            <option value="Lost">Lost</option>
+                            <option value="Found">Found</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" id="edit-description" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--outline" id="edit-cancel">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div class="modal hidden" id="confirmation-modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Confirm Action</h3>
+            <p id="modal-message">Are you sure?</p>
+            <div class="modal-actions">
+                <button class="btn btn--outline" id="modal-cancel">Cancel</button>
+                <button class="btn btn--primary" id="modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS/ERROR TOAST -->
+    <div class="toast hidden" id="toast">
+        <span id="toast-message"></span>
+        <button id="toast-close">×</button>
+    </div>
+
+    <!-- Site Footer -->
+    <footer class="site-footer" id="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="footer-logo">🔍</span>
+                    <span>Campus Lost & Found</span>
+                    <small>© <span id="footer-year"></span></small>
+                </div>
+                <nav class="footer-links" aria-label="Footer">
+                    <a href="#" class="nav-link" data-page="home">Home</a>
+                    <a href="#" class="nav-link" data-page="browse">Browse Items</a>
+                    <a href="#" class="nav-link auth-required" data-page="add-item">Add Item</a>
+                    <a href="#" class="nav-link auth-required" data-page="dashboard">Dashboard</a>
+                    <a href="#" class="nav-link auth-only" data-page="login">Login</a>
+                </nav>
+                <div class="footer-meta">
+                    <span>Contact: support@campuslostfound.local</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        (function(){
+            var y = document.getElementById('footer-year');
+            if (y) y.textContent = new Date().getFullYear();
+        })();
+    </script>
+
+    <!-- Supabase JS CDN and client config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Items - Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/browse.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/149/149880.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html">
+                    <h2>🔍 Campus Lost & Found</h2>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="browse.html" class="nav-link active">Browse Items</a>
+                <a href="add-item.html" class="nav-link auth-required">Add Item</a>
+                <a href="dashboard.html" class="nav-link auth-required">Dashboard</a>
+                <a href="login.html" class="nav-link auth-only" id="login-nav">Login</a>
+                <span class="nav-link user-info hidden" id="user-info">
+                    Welcome, <span id="user-name"></span>
+                    <button class="btn btn--sm logout-btn" id="logout-btn">Logout</button>
+                </span>
+            </div>
+
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Browse Items</h1>
+                <p>Search through lost and found items to find what you're looking for</p>
+            </div>
+        </section>
+
+        <!-- Search and Filter Section -->
+        <section class="search-filter-section">
+            <div class="container">
+                <div class="search-filter-container">
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <div class="search-input-wrapper">
+                            <input type="text" 
+                                   id="search-input" 
+                                   class="search-input" 
+                                   placeholder="Search items by title, description, or location...">
+                            <button class="search-btn" id="search-btn">
+                                <span>🔍</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="filters-container">
+                        <div class="filter-group">
+                            <label for="category-filter">Category:</label>
+                            <select id="category-filter" class="filter-select">
+                                <option value="">All Categories</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Books">Books</option>
+                                <option value="IDs">IDs</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="status-filter">Status:</label>
+                            <select id="status-filter" class="filter-select">
+                                <option value="">All Status</option>
+                                <option value="Lost">Lost</option>
+                                <option value="Found">Found</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="sort-filter">Sort by:</label>
+                            <select id="sort-filter" class="filter-select">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="title">Title A-Z</option>
+                            </select>
+                        </div>
+
+                        <button class="filter-clear-btn" id="clear-filters">Clear Filters</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="container">
+                <div class="results-header">
+                    <div class="results-count">
+                        <span id="results-count">0</span> items found
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" data-view="grid" id="grid-view">
+                            <span>⊞</span>
+                        </button>
+                        <button class="view-toggle-btn" data-view="list" id="list-view">
+                            <span>☰</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Items Grid/List -->
+                <div class="items-container" id="items-container">
+                    <div class="items-grid" id="items-grid">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-container hidden" id="load-more-container">
+                    <button class="btn btn--outline" id="load-more-btn">Load More Items</button>
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results hidden" id="no-results">
+                    <div class="no-results-icon">😔</div>
+                    <h3>No items found</h3>
+                    <p>Try adjusting your search criteria or filters</p>
+                    <a href="add-item.html" class="btn btn--primary auth-required">Report an Item</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quick Actions Floating Button -->
+    <div class="quick-actions" id="quick-actions">
+        <button class="quick-actions-toggle" id="quick-actions-toggle">
+            <span class="plus-icon">+</span>
+        </button>
+        <div class="quick-actions-menu" id="quick-actions-menu">
+            <a href="add-item.html" class="quick-action auth-required" title="Add Item">
+                <span>📝</span>
+            </a>
+            <a href="index.html" class="quick-action" title="Home">
+                <span>🏠</span>
+            </a>
+            <a href="dashboard.html" class="quick-action auth-required" title="Dashboard">
+                <span>📊</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Campus Lost & Found</h3>
+                    <p>Helping students reunite with their belongings</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="add-item.html">Report Item</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mailto:support@campuslostandfound.edu">Contact Support</a></li>
+                        <li><a href="tel:+1-555-CAMPUS">Call Campus Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Campus Lost & Found. Made with ❤️ for students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase JS CDN and client config (shared) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/browse.js"></script>
+</body>
+</html>
